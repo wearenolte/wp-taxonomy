@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Taxonomy Class for moxie-lean
+ */
+
 namespace Lean;
 
 /**
@@ -27,16 +31,8 @@ class Taxonomy {
 	 * Plural name of the taxonomy.
 	 *
 	 * @var string
-	 *
 	 */
 	protected $plural = '';
-
-	/**
-	 * Slug for the taxonomy.
-	 *
-	 * @var string
-	 */
-	protected $slug = '';
 
 	/**
 	 * Other Arguments for taxonomy found on
@@ -44,9 +40,7 @@ class Taxonomy {
 	 *
 	 * @var array
 	 */
-	protected $args = [
-		'hierarchical' => true,
-	];
+	protected $args = [];
 
 	/**
 	 * Objects that will be associated to taxonomy.
@@ -62,10 +56,11 @@ class Taxonomy {
 	 * @since 0.1.0
 	 *
 	 * @param array $options {.
-	 *     @type string post_type The name for Taxonomy.
-	 *     @type string singular Singular name of the Taxonomy.
-	 *     @type string plural Plural name of the Taxonomy.
-	 *     @type string slug The slug of the Taxonomy.
+	 *
+	 * @type string post_type The name for Taxonomy.
+	 * @type string singular Singular name of the Taxonomy.
+	 * @type string plural Plural name of the Taxonomy.
+	 * @type string slug The slug of the Taxonomy.
 	 * }
 	 */
 	public function __construct( $options = array() ) {
@@ -74,7 +69,7 @@ class Taxonomy {
 		}
 
 		// Set dynamic values to each instance variable.
-		$values = array( 'name', 'singular', 'plural', 'objects', 'slug' );
+		$values = array( 'name', 'singular', 'plural', 'args', 'objects' );
 		foreach ( $values as $value ) {
 			if ( array_key_exists( $value, $options ) ) {
 				$this->$value = $options[ $value ];
@@ -106,7 +101,7 @@ class Taxonomy {
 	 * @since 0.1.0
 	 */
 	public function init() {
-		if ( ! taxonomy_exists( $this->name ) ) {
+		if ( ! post_type_exists( $this->name ) ) {
 			if ( empty( $this->objects ) ) {
 				return new \WP_Error( 'missing objects', __( 'You are missing objects to associate the taxonomy to', 'lean' ) );
 			}
@@ -122,14 +117,14 @@ class Taxonomy {
 	 * @since 0.1.0
 	 */
 	private function set_default_args() {
-		$this->set_args(array(
+		$this->set_args( array(
 			// The array of labels to use in the UI for this post type.
-			'labels' => $this->labels,
+			'labels'    => $this->labels,
 			// We use the query var 'store' as opposed to the post type 'acf-store'.
 			'query_var' => strtolower( $this->singular ),
 			// Triggers the handling of re-writes for this post-type.
-			'rewrite' => $this->rewrite,
-		));
+			'rewrite'   => $this->rewrite,
+		) );
 	}
 
 	/**
@@ -166,7 +161,7 @@ class Taxonomy {
 	 *
 	 * @param mixed $default Reference to the original values.
 	 * @param array $new_values The array with the new values to be updated on
-	 *							the default variable.
+	 * the default variable.
 	 */
 	public function merge( &$default, $new_values ) {
 		if ( is_array( $new_values ) && ! empty( $new_values ) ) {
@@ -181,23 +176,23 @@ class Taxonomy {
 	 */
 	private function set_default_labels() {
 		$this->labels = array(
-			'name' => $this->interpolate( '%s', $this->plural ),
-			'singular_name' => $this->interpolate( '%s', $this->singular ),
-			'menu_name' => ucwords( str_replace( '-' ,' ', $this->interpolate( '%s', $this->plural ) ) ),
-			'all_items' => $this->interpolate( 'All %s', $this->plural ),
-			'edit_item' => $this->interpolate( 'Edit %s', $this->singular ),
-			'view_item' => $this->interpolate( 'View %s', $this->singular ),
-			'update_item' => $this->interpolate( 'Update %s', $this->singular ),
-			'add_new_item' => $this->interpolate( 'Add New %s', $this->singular ),
-			'new_item_name' => $this->interpolate( 'New %s', $this->singular ),
-			'parent_item' => $this->interpolate( 'Parent %s', $this->singular ),
-			'parent_item_colon' => $this->interpolate( 'Parent %s:', $this->singular ),
-			'search_items' => $this->interpolate( 'Search %s', $this->plural ),
-			'popular_items' => $this->interpolate( 'Popular %s', $this->plural ),
+			'name'                       => $this->interpolate( '%s', $this->plural ),
+			'singular_name'              => $this->interpolate( '%s', $this->singular ),
+			'menu_name'                  => $this->interpolate( '%s', $this->plural ),
+			'all_items'                  => $this->interpolate( 'All %s', $this->plural ),
+			'edit_item'                  => $this->interpolate( 'Edit %s', $this->singular ),
+			'view_item'                  => $this->interpolate( 'View %s', $this->singular ),
+			'update_item'                => $this->interpolate( 'Update %s', $this->singular ),
+			'add_new_item'               => $this->interpolate( 'Add New %s', $this->singular ),
+			'new_item_name'              => $this->interpolate( 'New %s', $this->singular ),
+			'parent_item'                => $this->interpolate( 'Parent %s', $this->singular ),
+			'parent_item_colon'          => $this->interpolate( 'Parent %s:', $this->singular ),
+			'search_items'               => $this->interpolate( 'Search %s', $this->plural ),
+			'popular_items'              => $this->interpolate( 'Popular %s', $this->plural ),
 			'separate_items_with_commas' => $this->interpolate( 'Separate %s with commas', $this->plural ),
-			'add_or_remove_items' => $this->interpolate( 'Add or remove %s', $this->plural ),
-			'choose_from_most_used' => $this->interpolate( 'Choose from most used', $this->plural ),
-			'not_found' => $this->interpolate( 'No %s found.', $this->plural ),
+			'add_or_remove_items'        => $this->interpolate( 'Add or remove %s', $this->plural ),
+			'choose_from_most_used'      => $this->interpolate( 'Choose from most used', $this->plural ),
+			'not_found'                  => $this->interpolate( 'No %s found.', $this->plural ),
 		);
 	}
 
@@ -209,6 +204,7 @@ class Taxonomy {
 	 *
 	 * @param string $msg The message to be displayed.
 	 * @param string $arg The argument to replace insode of the $message.
+	 *
 	 * @return string The message with the interpolation.
 	 */
 	private function interpolate( $msg = '', $arg = '' ) {
@@ -220,12 +216,13 @@ class Taxonomy {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string $str The string to be used in the label.
+	 * @param mixed $str The string to be used in the label.
+	 *
 	 * @return string The escpaed and translated label.
 	 */
 	private function label( $str = '' ) {
 		if ( is_string( $str ) && ! empty( $str ) ) {
-			return esc_html__( $str , 'Lean' );
+			return esc_html__( $str, 'Lean' );
 		} else {
 			return '';
 		}
@@ -239,7 +236,7 @@ class Taxonomy {
 	private function set_default_rewrite() {
 		$this->rewrite = array(
 			// Customize the permalink structure slug. Should be translatable.
-			'slug' => $this->interpolate( '%s', $this->slug ),
+			'slug'       => $this->interpolate( '%s', $this->slug ),
 
 			/*
 			 * Do not prepend the front base to the permalink structure.
@@ -275,7 +272,7 @@ class Taxonomy {
 		if ( ! empty( $name ) ) {
 			$this->set_args( array(
 				$name => $value,
-			));
+			) );
 		}
 	}
 }
