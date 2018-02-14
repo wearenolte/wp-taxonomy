@@ -2,7 +2,11 @@
 
 namespace Lean;
 
-
+/**
+ * Class Taxonomy
+ * 
+ * @package Lean
+ */
 class Taxonomy {
 
 	/**
