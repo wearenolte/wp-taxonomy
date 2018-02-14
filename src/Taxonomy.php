@@ -32,12 +32,21 @@ class Taxonomy {
 	protected $plural = '';
 
 	/**
+	 * Slug for the taxonomy.
+	 *
+	 * @var string
+	 */
+	protected $slug = '';
+
+	/**
 	 * Other Arguments for taxonomy found on
 	 * https://codex.wordpress.org/Function_Reference/register_taxonomy
 	 *
 	 * @var array
 	 */
-	protected $args = [];
+	protected $args = [
+		'hierarchical' => true,
+	];
 
 	/**
 	 * Objects that will be associated to taxonomy.
@@ -65,7 +74,7 @@ class Taxonomy {
 		}
 
 		// Set dynamic values to each instance variable.
-		$values = array( 'name', 'singular', 'plural', 'args', 'objects' );
+		$values = array( 'name', 'singular', 'plural', 'objects', 'slug' );
 		foreach ( $values as $value ) {
 			if ( array_key_exists( $value, $options ) ) {
 				$this->$value = $options[ $value ];
@@ -174,7 +183,7 @@ class Taxonomy {
 		$this->labels = array(
 			'name' => $this->interpolate( '%s', $this->plural ),
 			'singular_name' => $this->interpolate( '%s', $this->singular ),
-			'menu_name' => $this->interpolate( '%s', $this->plural ),
+			'menu_name' => ucwords( str_replace( '-' ,' ', $this->interpolate( '%s', $this->plural ) ) ),
 			'all_items' => $this->interpolate( 'All %s', $this->plural ),
 			'edit_item' => $this->interpolate( 'Edit %s', $this->singular ),
 			'view_item' => $this->interpolate( 'View %s', $this->singular ),

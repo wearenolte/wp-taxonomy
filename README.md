@@ -1,6 +1,6 @@
 > This library will allow you to easily create custom taxonomies
 
-## @TODO - Installation
+## Installation
 
 The easiest way to install this package is by using composer from your
 terminal:
@@ -13,7 +13,7 @@ Or by adding the following lines on your `composer.json` file
 
 ```json
 "require": {
-  "moxie-lean/wp-taxonomy": "dev-master"
+  "moxie-lean/wp-taxonomy": "*"
 }
 ```
 
@@ -27,5 +27,16 @@ be able to autoload the class during the object creation.
 include '/vendor/autoload.php';
 ```
 
-## @TODO - Using wp-taxonomy
-Will be modeled after [WP-CPT](https://github.com/wearenolte/wp-cpt)
+## Using wp-taxonomy
+Modeled after [WP-CPT](https://github.com/wearenolte/wp-cpt)
+
+```php
+$tax = new \Lean\Taxonomy([
+    'name' => 'Taxonomy Name',
+    'singular' => 'Single Tax',
+    'plural' => 'Multiple Taxes',
+    'slug' => 'new-taxonomy',
+    'objects' => [ 'cpt-one', 'cpt-two' ]
+]);
+$tax->init();
+```
