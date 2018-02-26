@@ -111,7 +111,7 @@ class Taxonomy {
 	 * @since 0.1.0
 	 */
 	public function init() {
-		if ( ! post_type_exists( $this->name ) ) {
+		if ( ! taxonomy_exists( $this->name ) ) {
 			if ( empty( $this->objects ) ) {
 				return new \WP_Error( 'missing objects', __( 'You are missing objects to associate the taxonomy to', 'lean' ) );
 			}
