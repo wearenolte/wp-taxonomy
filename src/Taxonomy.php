@@ -78,7 +78,6 @@ class Taxonomy {
 
 		$this->set_default_labels();
 		$this->set_default_rewrite();
-		$this->set_default_args();
 
 		if ( isset( $options['args'] ) ) {
 			$this->args = wp_parse_args( $options['args'], $this->args );
@@ -107,24 +106,6 @@ class Taxonomy {
 			}
 			register_taxonomy( $this->name, $this->objects, $this->args );
 		}
-	}
-
-	/**
-	 * Creates the default group of arguments, all of the arguments can be
-	 * overwritten by calling set_args, function with an instance of this object,
-	 * the value is stored in the $args variable.
-	 *
-	 * @since 0.1.0
-	 */
-	private function set_default_args() {
-		$this->set_args( array(
-			// The array of labels to use in the UI for this post type.
-			'labels'    => $this->labels,
-			// We use the query var 'store' as opposed to the post type 'acf-store'.
-			'query_var' => strtolower( $this->singular ),
-			// Triggers the handling of re-writes for this post-type.
-			'rewrite'   => $this->rewrite,
-		) );
 	}
 
 	/**
