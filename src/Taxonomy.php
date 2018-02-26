@@ -49,6 +49,13 @@ class Taxonomy {
 	 */
 	protected $objects = [];
 
+	/**
+	 * Labels
+	 *
+	 * @var array
+	 */
+	protected $labels = [];
+
 
 	/**
 	 * PHP5 Constructor
@@ -78,6 +85,10 @@ class Taxonomy {
 
 		$this->set_default_labels();
 		$this->set_default_rewrite();
+
+		$this->args = [
+			'labels' => $this->labels
+		];
 
 		if ( isset( $options['args'] ) ) {
 			$this->args = wp_parse_args( $options['args'], $this->args );
