@@ -76,7 +76,7 @@ class Taxonomy {
 		}
 
 		// Set dynamic values to each instance variable.
-		$values = array( 'name', 'singular', 'plural', 'args', 'objects' );
+		$values = array( 'name', 'singular', 'plural', 'args', 'objects', 'slug' );
 		foreach ( $values as $value ) {
 			if ( array_key_exists( $value, $options ) ) {
 				$this->$value = $options[ $value ];
