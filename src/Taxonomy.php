@@ -87,7 +87,8 @@ class Taxonomy {
 		$this->set_default_rewrite();
 
 		$this->args = [
-			'labels' => $this->labels
+			'labels' => $this->labels,
+			'show_in_rest' => true,
 		];
 
 		if ( isset( $options['args'] ) ) {
