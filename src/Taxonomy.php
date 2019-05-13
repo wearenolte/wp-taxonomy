@@ -89,6 +89,7 @@ class Taxonomy {
 		$this->args = [
 			'labels' => $this->labels,
 			'show_in_rest' => true,
+                        'show_in_rest' => true,
 		];
 
 		if ( isset( $options['args'] ) ) {
