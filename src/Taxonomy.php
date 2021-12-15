@@ -87,7 +87,7 @@ class Taxonomy {
 		$this->set_default_rewrite();
 
 		$this->args = [
-			'labels' => $this->labels,
+			'labels'       => $this->labels,
 			'show_in_rest' => true,
 		];
 
@@ -215,7 +215,7 @@ class Taxonomy {
 	 */
 	private function label( $str = '' ) {
 		if ( is_string( $str ) && ! empty( $str ) ) {
-			return esc_html__( $str, 'Lean' );
+			return esc_html__( $str, 'Lean' ); // phpcs:ignore -- The $text arg must be a single string literal, not "$str".
 		} else {
 			return '';
 		}
@@ -263,9 +263,11 @@ class Taxonomy {
 	 */
 	private function update_arg( $name = '', $value = '' ) {
 		if ( ! empty( $name ) ) {
-			$this->set_args( array(
-				$name => $value,
-			) );
+			$this->set_args(
+				array(
+					$name => $value,
+				)
+			);
 		}
 	}
 }
