@@ -70,13 +70,13 @@ class Taxonomy {
 	 * @type string slug The slug of the Taxonomy.
 	 * }
 	 */
-	public function __construct( $options = array() ) {
+	public function __construct( $options = [] ) {
 		if ( ! is_array( $options ) ) {
 			return;
 		}
 
 		// Set dynamic values to each instance variable.
-		$values = array( 'name', 'singular', 'plural', 'args', 'objects', 'slug' );
+		$values = [ 'name', 'singular', 'plural', 'args', 'objects', 'slug' ];
 		foreach ( $values as $value ) {
 			if ( array_key_exists( $value, $options ) ) {
 				$this->$value = $options[ $value ];
@@ -102,7 +102,7 @@ class Taxonomy {
 	 * @since 0.1.0
 	 */
 	public function register() {
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', [ $this, 'init' ] );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Taxonomy {
 	 * @since 0.10
 	 */
 	private function set_default_labels() {
-		$this->labels = array(
+		$this->labels = [
 			'name'                       => $this->interpolate( '%s', $this->plural ),
 			'singular_name'              => $this->interpolate( '%s', $this->singular ),
 			'menu_name'                  => $this->interpolate( '%s', $this->plural ),
@@ -186,7 +186,7 @@ class Taxonomy {
 			'add_or_remove_items'        => $this->interpolate( 'Add or remove %s', $this->plural ),
 			'choose_from_most_used'      => $this->interpolate( 'Choose from most used', $this->plural ),
 			'not_found'                  => $this->interpolate( 'No %s found.', $this->plural ),
-		);
+		];
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Taxonomy {
 	 * @since 0.1.0
 	 */
 	private function set_default_rewrite() {
-		$this->rewrite = array(
+		$this->rewrite = [
 			// Customize the permalink structure slug. Should be translatable.
 			'slug'       => $this->interpolate( '%s', $this->slug ),
 
@@ -238,7 +238,7 @@ class Taxonomy {
 			 * false->/news/, true->/blog/news/
 			 */
 			'with_front' => false,
-		);
+		];
 	}
 
 	/**
@@ -263,11 +263,7 @@ class Taxonomy {
 	 */
 	private function update_arg( $name = '', $value = '' ) {
 		if ( ! empty( $name ) ) {
-			$this->set_args(
-				array(
-					$name => $value,
-				)
-			);
+			$this->set_args( [ $name => $value ] );
 		}
 	}
 }
