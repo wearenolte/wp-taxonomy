@@ -56,6 +56,19 @@ class Taxonomy {
 	 */
 	protected $labels = [];
 
+	/**
+	 * URL rewrite options for the taxonomy.
+	 *
+	 * @var array
+	 */
+	protected $rewrite = [];
+
+	/**
+	 * Slug used for rewrite configuration.
+	 *
+	 * @var string
+	 */
+	protected $slug = '';
 
 	/**
 	 * PHP5 Constructor
@@ -146,19 +159,19 @@ class Taxonomy {
 	}
 
 	/**
-	 * Overwrites the default variable by mergin the default values with
+	 * Overwrites the original (default) variable by mergin the default values with
 	 * the new ones if the new values are empty the default values keep as they
 	 * are.
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param mixed $default Reference to the original values.
+	 * @param mixed $original Reference to the original values.
 	 * @param array $new_values The array with the new values to be updated on
 	 * the default variable.
 	 */
-	public function merge( &$default, $new_values ) {
+	public function merge( &$original, $new_values ) {
 		if ( is_array( $new_values ) && ! empty( $new_values ) ) {
-			$default = array_merge( $default, $new_values );
+			$original = array_merge( $original, $new_values );
 		}
 	}
 

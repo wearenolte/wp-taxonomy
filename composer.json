@@ -1,7 +1,10 @@
 {
   "name": "moxie-lean/wp-taxonomy",
   "description": "wp-taxonomy",
-  "keywords": ["wordpress","taxonomies"],
+  "keywords": [
+    "wordpress",
+    "taxonomies"
+  ],
   "homepage": "https://github.com/wearenolte/wp-taxonomy",
   "type": "library",
   "license": "MIT",
@@ -20,21 +23,31 @@
     }
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "3.*",
-    "wp-coding-standards/wpcs": "2.*"
+    "squizlabs/php_codesniffer": "^3.7.2",
+    "wp-coding-standards/wpcs": "^3.0"
   },
   "scripts": {
     "installSniffer": [
-      "./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs/",
+      "./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs/,vendor/phpcsstandards/phpcsutils/,vendor/phpcsstandards/phpcsextra/",
       "./vendor/bin/phpcs --config-set default_standard ./codesniffer.ruleset.xml",
       "./vendor/bin/phpcs --config-set show_progress 0",
       "./vendor/bin/phpcs --config-set colors 1"
     ],
-    "post-install-cmd": [ "@installSniffer" ],
-    "post-update-cmd": [ "@installSniffer" ],
-    "ci": [
-      "phpcs src/*.php"
+    "post-install-cmd": [
+      "@installSniffer"
+    ],
+    "post-update-cmd": [
+      "@installSniffer"
+    ],
+    "test": [
+      "echo \"Running WordPressCS checks...\"",
+      "./vendor/bin/phpcs -s src",
+      "echo \"WordPressCS checks complete.\""
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
-
